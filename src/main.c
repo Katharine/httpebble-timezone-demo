@@ -37,11 +37,6 @@ void have_time(int32_t dst_offset, bool is_dst, uint32_t unixtime, const char* t
 	text_layer_set_text(&nameLayer, stz_name);
 }
 
-void failed(int32_t request_id, int http_status, void* context) {
-	text_layer_set_text(&unixLayer, itoa(http_status));
-}
-
-
 void handle_init(AppContextRef ctx) {
 	window_init(&window, "Window Name");
 	window_stack_push(&window, true /* Animated */);
@@ -54,16 +49,13 @@ void handle_init(AppContextRef ctx) {
 	layer_add_child(&window.layer, &offsetLayer.layer);
 	layer_add_child(&window.layer, &dstLayer.layer);
 	layer_add_child(&window.layer, &unixLayer.layer);
+
 	http_set_app_id(34525634);
 	http_register_callbacks((HTTPCallbacks){
 		.time=have_time,
-		.failure=failed
 	}, NULL);
-	HTTPResult result;
 
-	if((result = http_time_request()) != HTTP_OK) {
-		text_layer_set_text(&nameLayer, itoa(result));
-	}
+	http_time_request();
 }
 
 void pbl_main(void *params) {
