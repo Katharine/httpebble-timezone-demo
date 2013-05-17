@@ -18,7 +18,7 @@ TextLayer dstLayer;
 TextLayer unixLayer;
 
 
-void have_time(int32_t dst_offset, bool is_dst, uint32_t unixtime, const char* tz_name) {
+void have_time(int32_t dst_offset, bool is_dst, uint32_t unixtime, const char* tz_name, void* context) {
 	static char stz_name[50];
 	static char dst[] = "DST: yes";
 	static char dsto[] = "UTC offset: xxxxxxxxxxx";
